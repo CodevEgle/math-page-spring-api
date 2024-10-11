@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.service.SubTopicContentService;
 
 @RestController
-@RequestMapping("api/year/subtopic/content")
+@RequestMapping("api/subtopic/content")
 @CrossOrigin
 public class SubtopicContentController {
 
@@ -37,25 +38,37 @@ public class SubtopicContentController {
 	}
 	
 	@GetMapping("/theory/{subtopic}")
-	public List<Theory> getTheoryBySubtopic(@RequestParam String subtopic){
-		return service.getTheoryBySubtopic(subtopic); 
+	public List<Theory> getTheoryBySubtopicName(@PathVariable String subtopic){
+		return service.getTheoriesBySubtopicName(subtopic); 
 	}
 	
+	@GetMapping("/theory/{subtopicId}")
+	public List<Theory> getTheoryBySubtopic(@PathVariable Long subtopicId){
+		return service.getTheoriesBySubtopicID(subtopicId); 
+	}
 	@GetMapping("/theory/{id}")
-	public Theory getTheoryById(@RequestParam Long id){
+	public Theory getTheoryById(@PathVariable Long id){
 		return service.getTheoryById(id); 
 	}
 	
 	@PostMapping("/theory")
-	 public String /*ResponseEntity<String> */ createTheory(@RequestBody Map<String, Object> theoryMap) {
-        String title = (String) theoryMap.get("title");
-        String content = (String) theoryMap.get("content");
-        Long subtopicId = ((Number) theoryMap.get("subtopicId")).longValue();
-        Theory theory = new Theory();
-        theory.setTitle(title);
-        theory.setContent(content);
-
-        return service.addTheoryToSubtopic(theory, subtopicId);
-    }
+	public Theory createNewTheory(@RequestBody Theory theory) {
+		return service.createNewTheory(theory);
+	}
+//	@PostMapping("/theory")
+//	 public String /*ResponseEntity<String> */ createTheory(@RequestBody Map<String, Object> theoryMap) {
+//        String title = (String) theoryMap.get("title");
+//        String content = (String) theoryMap.get("content");
+//        Long subtopicId = ((Number) theoryMap.get("subtopicId")).longValue();
+//        Theory theory = new Theory();
+//        theory.setTitle(title);
+//        theory.setContent(content);
+//
+//        return service.addTheoryToSubtopic(theory, subtopicId);
+//    }
 	
+	@PostMapping("/{subtopicId}/theory")
+	public Theory createTheoryAndAddToSubTopic(@PathVariable Long subtopicId, @RequestBody Theory theory) {
+		return service.createAndAddNewTheoryToSubTopic(subtopicId, theory);
+	}
 }

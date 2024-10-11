@@ -1,14 +1,21 @@
 package lt.ca.javau10.entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lt.ca.javau10.models.Role;
 
 @Entity
 @Table (name="Vartotojai")
@@ -27,7 +34,12 @@ public class MUser {
     @OneToMany(mappedBy = "muser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Grade> grades;
     
-
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(  name = "user_roles", 
+    			joinColumns = @JoinColumn(name = "user_id"), 
+    			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+    
 	public Long getId() {
 		return id;
 	}
@@ -67,13 +79,16 @@ public class MUser {
 	public void setGrades(List<Grade> grades) {
 		this.grades = grades;
 	}
-	
-	
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Column(name = "role")
-//    private Set<String> roles;
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	
 
     
 }

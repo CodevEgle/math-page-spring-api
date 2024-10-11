@@ -2,6 +2,8 @@ package lt.ca.javau10.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,11 +31,12 @@ public class SubTopic {
 	@OneToMany(mappedBy = "subtopic", cascade = CascadeType.ALL)
 	private List<SubTopicExercise> subTopicExercises;
 	
-	@OneToOne(mappedBy = "subtopic") 
+	@OneToOne(mappedBy = "subtopic", cascade = CascadeType.ALL) 
 	private SubTopicTest subTopicTest;
 	
 	@ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
+	@JsonIgnore
     private Topic topic;
 
 	public SubTopic () {}

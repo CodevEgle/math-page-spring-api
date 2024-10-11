@@ -2,6 +2,8 @@ package lt.ca.javau10.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class SubTopicTest {
 	
 	@OneToOne
     @JoinColumn(name = "subtopic_id")
+	@JsonIgnore
     private SubTopic subtopic;
 	
 	private int points;

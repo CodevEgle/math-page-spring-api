@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lt.ca.javau10.entities.SubTopic;
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.entities.Year;
 import lt.ca.javau10.service.YearService;
@@ -43,20 +45,26 @@ public class YearTopicController {
 		return service.addNewYear(year);
 	}
 	
-	@PostMapping("years/{yearId}/topics")
-    public ResponseEntity<Year> addnewTopicToYear(@PathVariable Long yearId, @RequestBody Topic topic) {
-        Year updatedYear = service.addTopicToYear(yearId, topic);
+	@PostMapping("/years/edit/{id}")
+	public Year updateYear(@PathVariable Long id, @ModelAttribute Year year) {
+		return service.updateYear(id, year);
+	}
+	
+	@PostMapping("years/{yearId}/topics/add")
+    public ResponseEntity<Year> addNewTopicToYear(@PathVariable Long yearId, @RequestBody Topic topic) {
+        Year updatedYear = service.addNewTopicToYear(yearId, topic);
         return ResponseEntity.ok(updatedYear);
     }
-	@DeleteMapping("{id}")
+	
+	@PostMapping("years/{yearId}/topics/add/{topicId}")
+    public ResponseEntity<Year> addExistingTopicToYear(@PathVariable Long yearId, @PathVariable Long topicId ) {
+        Year updatedYear = service.addExistingTopicToYear(yearId, topicId);
+        return ResponseEntity.ok(updatedYear);
+    }
+	@DeleteMapping("/years/{id}")
 	public String removeYearById(@PathVariable Long id) {
         return service.removeYearById(id);
     }
-	
-	@GetMapping("/topics")
-	public List<Topic> getAllTopics(){
-		return service.getAllTopics();
-	}
 	
 	@GetMapping("years/{yearId}/topics")
 	public List<Topic> getAllTopicsByYear(@PathVariable Long yearId){
@@ -64,13 +72,15 @@ public class YearTopicController {
 	}
 	
 	@DeleteMapping("years/{yearId}/topics/{topicId}")
-    public ResponseEntity<Year> removeAndDeleteTopicFromYear(@PathVariable Long yearId, @PathVariable Long topicId) {
-        Year updatedYear = service.removeTopicFromYearAndDelete(yearId, topicId);
+    public ResponseEntity<Year> removeTopicFromYear(@PathVariable Long yearId, @PathVariable Long topicId) {
+        Year updatedYear = service.removeTopicFromYear(yearId, topicId);
         return ResponseEntity.ok(updatedYear);
     }
+//	@DeleteMapping("years/{yearId}/topics/{topicId}/delete")
+//    public ResponseEntity<Year> removeAndDeleteTopicFromYear(@PathVariable Long yearId, @PathVariable Long topicId) {
+//        Year updatedYear = service.removeTopicFromYearAndDelete(yearId, topicId);
+//        return ResponseEntity.ok(updatedYear);
+//    }
 	
-	@GetMapping("topics/{id}")
-	public Topic getTopicById(@PathVariable Long topicId) {
-		return service.getTopicById(topicId);
-	}
+	
 }
