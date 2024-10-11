@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +23,7 @@ import io.jsonwebtoken.security.Keys;
 import lt.ca.javau10.models.UserDto;
 import lt.ca.javau10.service.MUserService;
 
+@Component
 public class JwtUtils {
 
 	 private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);

@@ -19,13 +19,14 @@ import lt.ca.javau10.security.JwtUtils;
 
 public class AuthTokenFilter extends OncePerRequestFilter{
 
-	 @Autowired
-	 private JwtUtils jwtUtils;
+	@Autowired
+	private JwtUtils jwtUtils;
 	 
-	 @Autowired
-	 UserDetailsService userService;
+	@Autowired
+	UserDetailsService userService;
 	 
-	 private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+	 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
