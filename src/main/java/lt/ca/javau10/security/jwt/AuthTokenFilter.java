@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lt.ca.javau10.security.JwtUtils;
 
-public class AuthTokenFilter extends OncePerRequestFilter {
+public class AuthTokenFilter extends OncePerRequestFilter{
 
 	 @Autowired
 	 private JwtUtils jwtUtils;
@@ -26,11 +26,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	 UserDetailsService userService;
 	 
 	 private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
-	
-	 @Override
-	 protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-	         throws ServletException, IOException {
-	     String jwt = parseJwt(request);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String jwt = parseJwt(request);
 	     if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 	         Authentication authentication = jwtUtils.getAuthentication(jwt);
 	         if (authentication != null) {
@@ -40,9 +39,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	             logger.debug("Authentication is null, not setting SecurityContext");
 	         }
 	     }
-	     filterChain.doFilter(request, response);
-	 }
-	 
+	     filterChain.doFilter(request, response);	
+	}
 	
 	private String parseJwt(HttpServletRequest request) {
 	    String headerAuth = request.getHeader("Authorization");

@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import lt.ca.javau10.security.jwt.AuthTokenFilter;
 
-import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableMethodSecurity
@@ -26,7 +26,7 @@ public class WebSecurityConfig {
 	 UserDetailsService userDetailsService;
 	
 	 @Autowired
-	 AuthenticationEntryPoint unauthorizedHandler;
+	 AuthEntryPointJwt unauthorizedHandler;
 	 
 	 @Bean
 	 AuthTokenFilter authenticationJwtTokenFilter() {
@@ -59,6 +59,7 @@ public class WebSecurityConfig {
 	         .authorizeHttpRequests(auth -> 
 	             auth.requestMatchers("/api/auth/**").permitAll()
 	                 .requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN")
+	                 .requestMatchers("/api/users/**").hasAuthority("ROLE_USER")
 	                 .anyRequest().anonymous()//authenticated()
 	         )
 	         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))

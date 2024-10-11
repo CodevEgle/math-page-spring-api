@@ -40,6 +40,14 @@ public class MUser {
     			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
     
+    public MUser() {}
+    
+	public MUser(String username, String password, String email) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+	}
+
 	public Long getId() {
 		return id;
 	}

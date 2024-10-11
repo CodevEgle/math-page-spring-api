@@ -1,5 +1,8 @@
 package lt.ca.javau10.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +33,36 @@ public class MUserService implements UserDetailsService {
 		MUser userEntityAfterSave = userRepository.save(userEntityBeforeSave);		
 		
 		return entityMapper.toUserDto(userEntityAfterSave);		
+	}
+	
+	public List<UserDto> getAllUsers(){
+		List<MUser> users = userRepository.findAll();
+		
+		return users.stream()
+				.map(entityMapper::toUserDto)
+				.toList();		
+	}
+	public Optional<UserDto> getUserById(Long id) {
+		Optional<MUser> user = userRepository.findById(id);
+		return user.map(entityMapper::toUserDto);
+	}
+	
+	public Optional<UserDto> updateUser(Long id, UserDto userDto ){
+		
+		if( userRepository.existsById(id) ) {
+			MUser userEntityBeforeSave = entityMapper.toUserEntity(userDto);
+			userEntityBeforeSave.setId(id);
+			
+			MUser userEntityAfterSave = userRepository.save(userEntityBeforeSave);
+			return Optional.of( entityMapper.toUserDto(userEntityAfterSave));
+			
+		} else {
+			return Optional.empty();
+		}
+		
+	}
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
 	}
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
