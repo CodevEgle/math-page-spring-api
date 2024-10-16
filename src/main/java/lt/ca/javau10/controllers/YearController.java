@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lt.ca.javau10.entities.SubTopic;
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.entities.Year;
-import lt.ca.javau10.service.YearService;
+import lt.ca.javau10.service.YearTopicService;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
-public class YearTopicController {
+public class YearController {
 
-	private YearService service;
+	private YearTopicService service;
 	
-	public YearTopicController (YearService service) {
+	public YearController (YearTopicService service) {
 		this.service = service;
 	}
 	
@@ -76,11 +75,7 @@ public class YearTopicController {
         Year updatedYear = service.removeTopicFromYear(yearId, topicId);
         return ResponseEntity.ok(updatedYear);
     }
-//	@DeleteMapping("years/{yearId}/topics/{topicId}/delete")
-//    public ResponseEntity<Year> removeAndDeleteTopicFromYear(@PathVariable Long yearId, @PathVariable Long topicId) {
-//        Year updatedYear = service.removeTopicFromYearAndDelete(yearId, topicId);
-//        return ResponseEntity.ok(updatedYear);
-//    }
+
 	
 	
 }

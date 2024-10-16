@@ -1,5 +1,7 @@
 package lt.ca.javau10.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import lt.ca.javau10.security.jwt.AuthTokenFilter;
 
@@ -54,12 +57,21 @@ public class WebSecurityConfig {
 	  }
 	 
 	 @Bean
-	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	     http.csrf(csrf -> csrf.disable())
-	         .authorizeHttpRequests(auth -> 
+	 SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        http
+	            .cors(cors -> cors.configurationSource(request -> {
+	                CorsConfiguration configuration = new CorsConfiguration();
+	                configuration.setAllowedOrigins(List.of("http://localhost:3000"));  // Allow the frontend origin
+	                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // Allow these HTTP methods
+	                configuration.setAllowCredentials(true);  // Allow credentials like cookies, authorization headers
+	                configuration.setAllowedHeaders(List.of("*"));  // Allow all headers
+	                return configuration;
+	            }))
+	            .csrf(csrf -> csrf.disable())  
+	            .authorizeHttpRequests(auth -> 
 	             auth.requestMatchers("/api/auth/**").permitAll()
 	                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-	                 .requestMatchers("/api/users/**").hasAuthority("ROLE_USER")
+	                 .requestMatchers("/api/users/**").authenticated()//hasAuthority("ROLE_USER")
 	                 .anyRequest().authenticated()
 	         )
 	         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
@@ -69,6 +81,23 @@ public class WebSecurityConfig {
 	     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	     return http.build();
-	 }
+	    }
+//	 @Bean
+//	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//	     http.csrf(csrf -> csrf.disable())
+//	         .authorizeHttpRequests(auth -> 
+//	             auth.requestMatchers("/api/auth/**").permitAll()
+//	                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+//	                 .requestMatchers("/api/users/**").authenticated()//hasAuthority("ROLE_USER")
+//	                 .anyRequest().authenticated()
+//	         )
+//	         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+//	         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//
+//	     http.authenticationProvider(authenticationProvider());
+//	     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//
+//	     return http.build();
+//	 }
 	 
 }

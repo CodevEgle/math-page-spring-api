@@ -3,7 +3,6 @@ package lt.ca.javau10.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -25,11 +24,11 @@ public class Topic {
     private String title;
     private String description;
     
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-    private List<SubTopic> subTopics;
+    @OneToMany(mappedBy = "topic")
+	private List<Theory> theories = new ArrayList<>();
     
     @OneToMany(mappedBy = "topic")
-    private List<Assessment> assessments;
+    private List<Assessment> assessments = new ArrayList<>();
     
     @ManyToMany(mappedBy = "topics", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -47,8 +46,8 @@ public class Topic {
 		return description;
 	}
 
-	public List<SubTopic> getSubTopics() {
-		return subTopics;
+	public List<Theory> getTheories() {
+		return theories;
 	}
 
 	public List<Assessment> getAssessments() {
@@ -71,8 +70,8 @@ public class Topic {
 		this.description = description;
 	}
 
-	public void setSubTopics(List<SubTopic> subTopics) {
-		this.subTopics = subTopics;
+	public void setTheories(List<Theory> theories) {
+		this.theories = theories;
 	}
 
 	public void setAssessments(List<Assessment> assessments) {

@@ -1,7 +1,11 @@
 package lt.ca.javau10.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,10 +30,13 @@ public class Theory {
 	@Column(length = 5000)
 	private String content;
 	
+	@OneToMany(mappedBy = "theory", cascade = CascadeType.ALL)
+	private List<ExampleExercise> exampleExercises = new ArrayList<>();
+	
 	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name = "subtopic_id")
-    private SubTopic subtopic;
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 	
 	public Long getId() {
 		return id;
@@ -41,9 +49,21 @@ public class Theory {
 	public String getContent() {
 		return content;
 	}
+	
+	public List<ExampleExercise> getExampleExercises() {
+		return exampleExercises;
+	}
 
-	public SubTopic getSubtopic() {
-		return subtopic;
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setExampleExercises(List<ExampleExercise> exampleExercises) {
+		this.exampleExercises = exampleExercises;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 	public void setId(Long id) {
@@ -56,10 +76,6 @@ public class Theory {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public void setSubtopic(SubTopic subTopic) {
-		this.subtopic = subTopic;
 	}
 	
 }

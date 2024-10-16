@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +36,35 @@ public class MUserController {
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);		
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/all")
 	public ResponseEntity<List<UserDto>> getAllUsers(){
 		List<UserDto> users = userService.getAllUsers();
 		return new ResponseEntity<>(users, HttpStatus.OK);	
 	}
+	
+	@GetMapping("/")
+    public String getPublicContent() {
+        return "Public Content";
+    }
+
+    // Endpoint accessible only by authenticated users with ROLE_USER or higher
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public String getUserBoard() {
+        return "User Board";
+    }
+
+    // Endpoint accessible only by users with ROLE_MODERATOR
+    @GetMapping("/mod")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public String getModeratorBoard() {
+        return "Moderator Board";
+    }
+	@GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getAdminBoard() {
+        return "Admin Board";
+    }
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable Long id){	

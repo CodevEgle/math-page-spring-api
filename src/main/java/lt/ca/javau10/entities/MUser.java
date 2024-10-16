@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,10 +26,13 @@ public class MUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
     
+	@Column(nullable = false, unique = false)
     private String email;
     
+	@Column(nullable = false, unique = true)
     private String password;
     
     @OneToMany(mappedBy = "muser", cascade = CascadeType.ALL, orphanRemoval = true)

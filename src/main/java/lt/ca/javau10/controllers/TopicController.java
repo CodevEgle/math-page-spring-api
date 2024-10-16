@@ -12,19 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lt.ca.javau10.entities.SubTopic;
+import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
-import lt.ca.javau10.entities.Year;
-import lt.ca.javau10.service.YearService;
+import lt.ca.javau10.service.YearTopicService;
 
 @RestController
 @RequestMapping("/api/topics")
 @CrossOrigin
 public class TopicController {
 
-	private YearService service;
+	private YearTopicService service;
 	
-	public TopicController (YearService service) {
+	public TopicController (YearTopicService service) {
 		this.service = service;
 	}
 	
@@ -48,36 +47,12 @@ public class TopicController {
         return service.removeTopicById(id);
     }
 	
-	@GetMapping("{topicId}/subtopics")
-	public List<SubTopic> getSubtopicsFromTopic(@PathVariable Long topicId){
-		return service.getAllSubtopicsFromTopic(topicId);
+	@GetMapping("{topicId}/theories")
+	public List<Theory> getTheoriesFromTopic(@PathVariable Long topicId){
+		return service.getAllTheoriesFromTopic(topicId);
 	}
-	//----------------------------------------------------------------------------
-	@GetMapping("/subtopics")
-	public List<SubTopic> getAllSuTopics() {
-		return service.getAllSubtopics();
-	}
-		
-	@GetMapping("/subtopics/{id}")
-	public SubTopic getSubTopicById(@PathVariable Long subtopicId) {
-		return service.getSubTopicById(subtopicId);
-	}
-	
-	@DeleteMapping("/subtopics/{subtopicId}")
-	public String deleteSubTopic(@PathVariable Long subtopicId) {
-		return service.deleteSubtopic(subtopicId);
-	}
-	
-	@PostMapping("{topicId}/subtopics")
-	public ResponseEntity<Topic> addNewSubTopicToTopic(@PathVariable Long topicId, @RequestBody SubTopic subtopic) {
-	Topic updatedTopic = service.addSubTopicToTopic(topicId, subtopic);
-	    return ResponseEntity.ok(updatedTopic);
-	}
-	
-	@PostMapping("/{topicId}/subtopics/add/{subtopicId}")
-    public ResponseEntity<Topic> addExistingSubTopicToTopic(@PathVariable Long topicId, @PathVariable Long subtopicId ) {
-        Topic updatedTopic = service.addExistingSubTopicToTopic(topicId, subtopicId);
-        return ResponseEntity.ok(updatedTopic);
-    }
+
+	//update topic:
+	//
 	
 }

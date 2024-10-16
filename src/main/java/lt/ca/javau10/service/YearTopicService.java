@@ -3,28 +3,24 @@ package lt.ca.javau10.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import lt.ca.javau10.entities.SubTopic;
+import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.entities.Year;
-import lt.ca.javau10.repositories.SubTopicRepository;
 import lt.ca.javau10.repositories.TopicRepository;
 import lt.ca.javau10.repositories.YearRepository;
 
 @Service
-public class YearService {
+public class YearTopicService {
 
 	private YearRepository yRep;
 	private TopicRepository topicRep;
-	private SubTopicRepository subRep;
 	
-	public YearService (YearRepository yRep, TopicRepository topicRep, SubTopicRepository subRep) {
+	public YearTopicService (YearRepository yRep, TopicRepository topicRep) {
 		this.yRep = yRep;
 		this.topicRep = topicRep;
-		this.subRep = subRep;
 	}
 
 	public List<Year> getAllYears() {
@@ -130,26 +126,20 @@ public class YearService {
 		return year.getTopics();
 	}
 
-	public List<SubTopic> getAllSubtopics() {
-		return subRep.findAll();
-	}
 
-	public SubTopic getSubTopicById(Long subtopicId) {
-		return subRep.findAll().stream().filter(sub -> sub.getId() == subtopicId).findFirst().orElse(null);
-	}
 
-	public Topic addSubTopicToTopic(Long topicId, SubTopic subtopic) {
-		Optional<Topic> topicOptional = topicRep.findById(topicId);
-        if (topicOptional.isPresent()) {
-            Topic topic = topicOptional.get();
-            topic.getSubTopics().add(subtopic);
-            subtopic.setTopic(topic);
-            
-            subRep.save(subtopic);  
-            return topicRep.save(topic);
-        }
-        throw new RuntimeException("Year not found with id: " + topicId);
-	}
+//	public Topic addSubTopicToTopic(Long topicId, SubTopic subtopic) {
+//		Optional<Topic> topicOptional = topicRep.findById(topicId);
+//        if (topicOptional.isPresent()) {
+//            Topic topic = topicOptional.get();
+//            topic.getSubTopics().add(subtopic);
+//            subtopic.setTopic(topic);
+//            
+//            subRep.save(subtopic);  
+//            return topicRep.save(topic);
+//        }
+//        throw new RuntimeException("Year not found with id: " + topicId);
+//	}
 
 	public Year updateYear(Long id, Year newyear) {
 		Year oldYear = getYearById(id);
@@ -165,45 +155,36 @@ public class YearService {
 
 	public String removeTopicById(Long id) {
 		Topic topic = topicRep.findById(id).orElseThrow();
-		topic.setSubTopics(new ArrayList<>());
+		topic.setTheories(new ArrayList<>());
 		topic.setYears(new ArrayList<>());
 		topicRep.delete(topic);
 		return "succesfully removed";
 	}
 
-	public Topic addExistingSubTopicToTopic(Long topicId, Long subtopicId) {
-		Optional<SubTopic> subtopicOptional = subRep.findById(subtopicId);
-	    Optional<Topic> topicOptional = topicRep.findById(topicId);
-	    if (subtopicOptional.isPresent() && topicOptional.isPresent()) {
-            Topic topic = topicOptional.get();
-            SubTopic subtopic = subtopicOptional.get();
-            
-            List<SubTopic> subtopics = topic.getSubTopics();
-            subtopics.add(subtopic);
-            topic.setSubTopics(subtopics);
-            
-            subtopic.setTopic(topic);
-            topicRep.save(topic);
-            subRep.save(subtopic);
-            return topic;
-        }
-        throw new RuntimeException("Topic or SubTopic not found with ids: " + topicId + ", " + subtopicId);
-	}
+//	public Topic addExistingSubTopicToTopic(Long topicId, Long subtopicId) {
+//		Optional<SubTopic> subtopicOptional = subRep.findById(subtopicId);
+//	    Optional<Topic> topicOptional = topicRep.findById(topicId);
+//	    if (subtopicOptional.isPresent() && topicOptional.isPresent()) {
+//            Topic topic = topicOptional.get();
+//            SubTopic subtopic = subtopicOptional.get();
+//            
+//            List<SubTopic> subtopics = topic.getSubTopics();
+//            subtopics.add(subtopic);
+//            topic.setSubTopics(subtopics);
+//            
+//            subtopic.setTopic(topic);
+//            topicRep.save(topic);
+//            subRep.save(subtopic);
+//            return topic;
+//        }
+//        throw new RuntimeException("Topic or SubTopic not found with ids: " + topicId + ", " + subtopicId);
+//	}
 
-	public List<SubTopic> getAllSubtopicsFromTopic(Long topicId) {
+	public List<Theory> getAllTheoriesFromTopic(Long topicId) {
 		Topic topic = topicRep.findAll().stream().filter(t -> (t.getId() == topicId)).findFirst().orElseThrow();
-		return topic.getSubTopics();
+		return topic.getTheories();
 	}
 
-	public String deleteSubtopic(Long subtopicId) {
-		SubTopic subtopic = subRep.findById(subtopicId).orElseThrow();
-		subtopic.setTheories(new ArrayList<>());
-		subtopic.setSubTopicExercises(new ArrayList<>());
-		subtopic.setTopic(null);
-		subRep.delete(subtopic);
-		return "succesfully remowed";
-	}
-	
 
 	
 

@@ -1,5 +1,6 @@
 package lt.ca.javau10.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -23,10 +24,10 @@ public class Assessment {
     private String title;
     
     @OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
     
     @OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
-    private List<Exercise> exercises;
+    private List<Exercise> exercises = new ArrayList<>();
            
     @ManyToOne	//čia tam atvejui, jeigu tema bus priskirta, pvz, ir 9 ir 8 kl, ir bus kitas atsiskaitymas be pilnųjų kv lygčių ar pan.
     @JoinColumn(name = "topic_id")   

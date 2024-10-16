@@ -9,8 +9,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table (name="Potemes uzdaviniai")
-public class SubTopicExercise {
+@Table (name="Uzdaviniu-pavyzdziai")
+public class ExampleExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +20,8 @@ public class SubTopicExercise {
     private String answer;
 
     @ManyToOne
-    @JoinColumn(name = "subtopic_id", referencedColumnName = "id")
-    private SubTopic subtopic;
+    @JoinColumn(name = "theory_id", referencedColumnName = "id")
+    private Theory theory;
 
 	public Long getId() {
 		return id;
@@ -43,8 +43,12 @@ public class SubTopicExercise {
 		return answer;
 	}
 
-	public SubTopic getSubtopic() {
-		return subtopic;
+	public Theory getTheory() {
+		return theory;
+	}
+
+	public void setTheory(Theory theory) {
+		this.theory = theory;
 	}
 
 	public void setId(Long id) {
@@ -65,10 +69,6 @@ public class SubTopicExercise {
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
-	}
-
-	public void setSubtopic(SubTopic subtopic) {
-		this.subtopic = subtopic;
 	}
     
     
