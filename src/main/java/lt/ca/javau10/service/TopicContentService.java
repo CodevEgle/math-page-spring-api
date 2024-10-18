@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lt.ca.javau10.entities.ExampleExercise;
 import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
+import lt.ca.javau10.repositories.AssessmentRepository;
 import lt.ca.javau10.repositories.ExampleExerciseRepository;
 import lt.ca.javau10.repositories.TheoryRepository;
 import lt.ca.javau10.repositories.TopicRepository;
@@ -19,11 +20,14 @@ public class TopicContentService {
 	private ExampleExerciseRepository exRep;
 	private TheoryRepository theoryRep;
 	private TopicRepository topicRep;
+	private AssessmentRepository aRep;
 	
-	public TopicContentService (ExampleExerciseRepository exRep, TheoryRepository theoryRep, TopicRepository topicRep) {
+	public TopicContentService (ExampleExerciseRepository exRep, TheoryRepository theoryRep, TopicRepository topicRep,
+			AssessmentRepository aRep) {
 		this.exRep = exRep;
 		this.theoryRep = theoryRep;
 		this.topicRep = topicRep;
+		this.aRep = aRep;
 	}
 
 	public List<Theory> getAllTheories() {

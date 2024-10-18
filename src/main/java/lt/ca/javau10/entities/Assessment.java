@@ -3,6 +3,8 @@ package lt.ca.javau10.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,7 @@ public class Assessment {
            
     @ManyToOne	//čia tam atvejui, jeigu tema bus priskirta, pvz, ir 9 ir 8 kl, ir bus kitas atsiskaitymas be pilnųjų kv lygčių ar pan.
     @JoinColumn(name = "topic_id")   
+    @JsonIgnore
     private Topic topic;
 
 	public Long getId() {
