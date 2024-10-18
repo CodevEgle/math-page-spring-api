@@ -2,6 +2,8 @@ package lt.ca.javau10.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,7 @@ public class Question {
 	
 	@ManyToOne
     @JoinColumn(name = "assessment_id", referencedColumnName = "id")
+	@JsonIgnore
 	private Assessment assessment;
 
 	public Long getId() {

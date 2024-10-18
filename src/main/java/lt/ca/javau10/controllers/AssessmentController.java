@@ -3,6 +3,7 @@ package lt.ca.javau10.controllers;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,8 +55,13 @@ public class AssessmentController {
 	public Question createAndAddNewQuestion(@PathVariable Long assessmentId, @RequestBody Question question) {
 		return service.createAndAddNewQuestionToAssessment(assessmentId, question);
 	}
+	
+	@DeleteMapping("/questions/{questionId}")
+	public String deleteQuestion (@PathVariable Long questionId) {
+		return service.deleteQuestion(questionId);
+	}
 	//update assessment
-	//get all questions
-	//add 
+	//delete question,assessment
+	//get exercises
 	
 }

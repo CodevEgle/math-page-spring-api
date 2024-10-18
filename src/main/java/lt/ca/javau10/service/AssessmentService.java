@@ -62,7 +62,14 @@ public class AssessmentService {
 		assessment.setQuestions(questions);
 		question.setAssessment(assessment);
 		assessmentRep.save(assessment);
-		return qRep.save(question);
+		return question;
+	}
+
+	public String deleteQuestion(Long questionId) {
+		Question question = qRep.findById(questionId).orElseThrow();
+		question.setAssessment(new Assessment());
+		qRep.delete(question);
+		return "succesfully removed";
 	}
 	
 	
