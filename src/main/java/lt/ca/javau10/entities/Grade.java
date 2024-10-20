@@ -25,7 +25,7 @@ public class Grade {
     @JoinColumn(name = "topic_id")
     private Topic topic;
     
-    private Integer score;
+    private Double score;
 
 	public Long getId() {
 		return id;
@@ -39,7 +39,7 @@ public class Grade {
 		return topic;
 	}
 
-	public Integer getScore() {
+	public Double getScore() {
 		return score;
 	}
 
@@ -55,7 +55,7 @@ public class Grade {
 		this.topic = topic;
 	}
 
-	public void setScore(Integer score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 

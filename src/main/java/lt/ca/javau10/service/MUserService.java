@@ -10,22 +10,31 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import lt.ca.javau10.entities.Grade;
 import lt.ca.javau10.entities.MUser;
+import lt.ca.javau10.models.GradeDto;
 import lt.ca.javau10.models.UserDto;
+import lt.ca.javau10.repositories.GradeRepository;
 import lt.ca.javau10.repositories.MUserRepository;
+import lt.ca.javau10.repositories.TopicRepository;
 import lt.ca.javau10.utils.EntityMapper;
 
 @Service
 public class MUserService implements UserDetailsService {
 
 	private final MUserRepository userRepository;
+	private final GradeRepository gradeRep;
+	private final TopicRepository topicRep;
 	private final EntityMapper entityMapper;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MUserService.class);
 
-	public MUserService(MUserRepository userRepository, EntityMapper entityMapper) {
+	public MUserService(MUserRepository userRepository, EntityMapper entityMapper, GradeRepository gradeRep,
+			TopicRepository topicRep) {
 		this.userRepository = userRepository;
 		this.entityMapper = entityMapper;
+		this.gradeRep = gradeRep;
+		this.topicRep = topicRep;
 	}
 	
 	public UserDto createUser(UserDto userDto) {
@@ -74,4 +83,26 @@ public class MUserService implements UserDetailsService {
 		return entityMapper.toUserDto(user);
 	}
 
+	public List<Grade> getAllGradesFromUser(Long userId){
+		return userRepository.findById(userId).orElseThrow().getGrades();
+	}
+
+	public Optional<Grade> addGradeToUser(/*Long userId,*/ GradeDto gradeDto) {
+		if( userRepository.existsById(gradeDto.getMuserId()) ) {
+			Grade grade = new Grade();
+			MUser user = userRepository.findById(gradeDto.getMuserId()).get();
+			grade.setMUser(user);
+			grade.setTopic(topicRep.findById(gradeDto.getTopicId()).get());
+			grade.setScore(gradeDto.getScore());
+			
+			List<Grade> grades = user.getGrades();
+			grades.add(grade);
+			userRepository.save(user);
+			//gradeRep.save(grade);
+			return Optional.of(grade);
+			
+		} else {
+			return Optional.empty();
+		}
+	}
 }

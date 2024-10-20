@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import lt.ca.javau10.entities.Assessment;
 import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.entities.Year;
@@ -183,6 +184,11 @@ public class YearTopicService {
 	public List<Theory> getAllTheoriesFromTopic(Long topicId) {
 		Topic topic = topicRep.findAll().stream().filter(t -> (t.getId() == topicId)).findFirst().orElseThrow();
 		return topic.getTheories();
+	}
+
+	public List<Assessment> getAllAssessmentsFromTopic(Long topicId) {
+		Topic topic = topicRep.findById(topicId).orElseThrow();
+		return topic.getAssessments();
 	}
 
 

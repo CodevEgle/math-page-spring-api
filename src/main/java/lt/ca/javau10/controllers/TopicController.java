@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lt.ca.javau10.entities.Assessment;
 import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.service.YearTopicService;
@@ -47,11 +48,15 @@ public class TopicController {
         return service.removeTopicById(id);
     }
 	
-	@GetMapping("{topicId}/theories")
+	@GetMapping("/{topicId}/theories")
 	public List<Theory> getTheoriesFromTopic(@PathVariable Long topicId){
 		return service.getAllTheoriesFromTopic(topicId);
 	}
 
+	@GetMapping("/{topicId}/assessments")
+	public List<Assessment> getAllAssessmentsFromTopic(@PathVariable Long topicId){
+		return service.getAllAssessmentsFromTopic(topicId);
+	}
 	//update topic:
 	//
 	

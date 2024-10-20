@@ -18,7 +18,7 @@ import lt.ca.javau10.entities.Grade;
 @Component
 public class UserDto implements UserDetails {
 
-private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 	
 	private Long id;
 	private String username;
@@ -28,7 +28,7 @@ private static final long serialVersionUID = -1L;
 	@JsonIgnore
 	private String password;
 	
-public UserDto() {}
+	public UserDto() {}
 	
 	public UserDto(String username, String email, String password) {
 		this.username = username;
