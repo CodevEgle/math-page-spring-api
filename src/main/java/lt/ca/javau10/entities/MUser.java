@@ -1,5 +1,6 @@
 package lt.ca.javau10.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class MUser {
     
     @OneToMany(mappedBy = "muser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Grade> grades;
+    private List<Grade> grades = new ArrayList<>();
     
     @ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(  name = "user_roles", 

@@ -1,4 +1,4 @@
-package lt.ca.javau10.service;
+package lt.ca.javau10.services;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lt.ca.javau10.entities.Topic;
 import lt.ca.javau10.entities.Year;
-import lt.ca.javau10.service.YearTopicService;
+import lt.ca.javau10.services.YearTopicService;
 
 @RestController
 @RequestMapping("/api")
@@ -44,8 +45,8 @@ public class YearController {
 		return service.addNewYear(year);
 	}
 	
-	@PostMapping("/years/edit/{id}")
-	public Year updateYear(@PathVariable Long id, @ModelAttribute Year year) {
+	@PutMapping("/years/edit/{id}")
+	public Year updateYear(@PathVariable Long id, @RequestBody Year year) {
 		return service.updateYear(id, year);
 	}
 	

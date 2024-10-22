@@ -2,6 +2,7 @@ package lt.ca.javau10.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lt.ca.javau10.models.Role;
 import lt.ca.javau10.models.UserDto;
-import lt.ca.javau10.service.MUserService;
+import lt.ca.javau10.services.MUserService;
 
 @CrossOrigin
 @RestController
@@ -91,4 +93,15 @@ public class MUserController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	@PutMapping ("/{userId}/roles")
+    @PreAuthorize("hasRole('ADMIN')")
+	public Set<Role> addRoleToUser(@PathVariable Long userId, @RequestBody Role role) {
+		return userService.addRoleTuUser(userId, role);
+	}
+	
+	@DeleteMapping("/{userId}/roles")
+    @PreAuthorize("hasRole('ADMIN')")
+	public Set<Role> deleteRoleFromUser(@PathVariable Long userId, @RequestBody Role role){
+		return userService.deleteRoleFromUser(userId, role);
+	}
 }

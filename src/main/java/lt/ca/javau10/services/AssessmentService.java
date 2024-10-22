@@ -1,4 +1,4 @@
-package lt.ca.javau10.service;
+package lt.ca.javau10.services;
 
 import java.util.List;
 
@@ -71,8 +71,15 @@ public class AssessmentService {
 		qRep.delete(question);
 		return "succesfully removed";
 	}
-	
-	
+
+	public Question updateQuestionByQuestionId(Long questionId, Question question) {
+		Question oldQuestion = qRep.findById(questionId).orElseThrow();
+		oldQuestion.setQuestion(question.getQuestion());
+		oldQuestion.setOptions(question.getOptions());
+		oldQuestion.setAnswer(question.getAnswer());
+		oldQuestion.setPoints(question.getPoints());
+		return qRep.save(oldQuestion);
+	}
 	
 	
 

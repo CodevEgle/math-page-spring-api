@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lt.ca.javau10.entities.Assessment;
 import lt.ca.javau10.entities.Theory;
 import lt.ca.javau10.entities.Topic;
-import lt.ca.javau10.service.YearTopicService;
+import lt.ca.javau10.services.YearTopicService;
 
 @RestController
 @RequestMapping("/api/topics")

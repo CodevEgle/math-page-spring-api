@@ -21,7 +21,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lt.ca.javau10.models.UserDto;
-import lt.ca.javau10.service.MUserService;
+import lt.ca.javau10.services.MUserService;
 
 @Component
 public class JwtUtils {

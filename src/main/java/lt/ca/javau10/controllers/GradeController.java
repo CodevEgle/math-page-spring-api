@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lt.ca.javau10.entities.Grade;
 import lt.ca.javau10.models.GradeDto;
-import lt.ca.javau10.service.MUserService;
+import lt.ca.javau10.services.MUserService;
 
 @CrossOrigin
 @RestController

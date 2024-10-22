@@ -1,4 +1,4 @@
-package lt.ca.javau10.service;
+package lt.ca.javau10.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +74,14 @@ public class TopicContentService {
 		theory.setExampleExercises(new ArrayList<>());
 		theoryRep.delete(theory);
 		return "succesfully removed";
+	}
+
+	public Theory updateTheory(Long theoryId, Theory theory) {
+		Theory oldTheory = theoryRep.findById(theoryId).orElseThrow();
+		oldTheory.setTitle(theory.getTitle());
+		oldTheory.setContent(theory.getContent());
+		oldTheory.setExampleExercises(theory.getExampleExercises());
+		return theoryRep.save(oldTheory);
 	}
 
 	

@@ -14,7 +14,7 @@ import lt.ca.javau10.payload.requests.LoginRequest;
 import lt.ca.javau10.payload.requests.SignupRequest;
 import lt.ca.javau10.payload.responses.JwtResponse;
 import lt.ca.javau10.payload.responses.MessageResponse;
-import lt.ca.javau10.service.AuthService;
+import lt.ca.javau10.services.AuthService;
 
 @CrossOrigin
 @RestController

@@ -1,7 +1,8 @@
-package lt.ca.javau10.service;
+package lt.ca.javau10.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Service;
 
 import lt.ca.javau10.entities.Grade;
 import lt.ca.javau10.entities.MUser;
+import lt.ca.javau10.models.ERole;
 import lt.ca.javau10.models.GradeDto;
+import lt.ca.javau10.models.Role;
 import lt.ca.javau10.models.UserDto;
 import lt.ca.javau10.repositories.GradeRepository;
 import lt.ca.javau10.repositories.MUserRepository;
+import lt.ca.javau10.repositories.RoleRepository;
 import lt.ca.javau10.repositories.TopicRepository;
 import lt.ca.javau10.utils.EntityMapper;
 
@@ -25,16 +29,18 @@ public class MUserService implements UserDetailsService {
 	private final MUserRepository userRepository;
 	private final GradeRepository gradeRep;
 	private final TopicRepository topicRep;
+	private final RoleRepository roleRep;
 	private final EntityMapper entityMapper;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MUserService.class);
 
 	public MUserService(MUserRepository userRepository, EntityMapper entityMapper, GradeRepository gradeRep,
-			TopicRepository topicRep) {
+			TopicRepository topicRep, RoleRepository roleRep) {
 		this.userRepository = userRepository;
 		this.entityMapper = entityMapper;
 		this.gradeRep = gradeRep;
 		this.topicRep = topicRep;
+		this.roleRep = roleRep;
 	}
 	
 	public UserDto createUser(UserDto userDto) {
@@ -104,5 +110,42 @@ public class MUserService implements UserDetailsService {
 		} else {
 			return Optional.empty();
 		}
+	}
+
+	public Set<Role> addRoleTuUser(Long userId, Role role) {
+	    MUser user = userRepository.findById(userId)
+	        .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+	    Set<Role> roles = user.getRoles();
+	    ERole eRole;
+	    try {
+	        eRole = ERole.valueOf(role.getName());
+	    } catch (IllegalArgumentException e) {
+	        throw new RuntimeException("Invalid role: " + role);
+	    }
+
+	    // Find the role in the database
+	    Role roleEntity = roleRep.findByName(eRole)
+	        .orElseThrow(() -> new RuntimeException("Role not found: " + role));
+
+	    roles.add(roleEntity);
+	    user.setRoles(roles);
+	    userRepository.save(user);
+
+	    return user.getRoles();
+	}
+
+	public Set<Role> deleteRoleFromUser(Long userId, Role role) {
+	    MUser user = userRepository.findById(userId)
+	            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+	    Set<Role> roles = user.getRoles();
+	    boolean roleRemoved = roles.removeIf(r -> r.getName().equals(role.getName()));
+	    if (!roleRemoved) {
+	        throw new RuntimeException("Role not found: " + role.getName());
+	    }
+
+	    user.setRoles(roles);
+	    userRepository.save(user);
+	    return user.getRoles();
 	}
 }
