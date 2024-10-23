@@ -35,6 +35,19 @@ public class Year {
 	//@JsonManagedReference
 	private List<Topic> topics = new ArrayList<>();
 
+	public Year() {}
+	
+	public Year(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+	
+	public Year(String name, String description, List<Topic> topics) {
+		this.name = name;
+		this.description = description;
+		this.topics = topics;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -31,6 +31,15 @@ public class Question {
 	@JsonIgnore
 	private Assessment assessment;
 
+	public Question () {}
+	
+	public Question(String question, List<String> options, String answer, int points) {
+		this.question = question;
+		this.options = options;
+		this.answer = answer;
+		this.points = points;
+	}
+
 	public Long getId() {
 		return id;
 	}

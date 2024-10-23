@@ -34,6 +34,15 @@ public class Topic {
     @JsonIgnore
     private List<Year> years = new ArrayList<>();
 
+    public Topic () {}
+    
+	public Topic(String title, String description, List<Theory> theories, List<Assessment> assessments) {
+		this.title = title;
+		this.description = description;
+		this.theories = theories;
+		this.assessments = assessments;
+	}
+
 	public Long getId() {
 		return id;
 	}

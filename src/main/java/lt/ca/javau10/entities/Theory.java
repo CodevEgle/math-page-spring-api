@@ -38,6 +38,14 @@ public class Theory {
     @JoinColumn(name = "topic_id")
     private Topic topic;
 	
+	public Theory() {}
+	
+	public Theory(String title, String content, List<ExampleExercise> exampleExercises) {
+		this.title = title;
+		this.content = content;
+		this.exampleExercises = exampleExercises;
+	}
+
 	public Long getId() {
 		return id;
 	}

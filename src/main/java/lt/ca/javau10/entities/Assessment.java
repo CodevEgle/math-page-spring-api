@@ -36,6 +36,14 @@ public class Assessment {
     @JsonIgnore
     private Topic topic;
 
+    public Assessment() {}
+    
+	public Assessment(String title, List<Question> questions, List<Exercise> exercises) {
+		this.title = title;
+		this.questions = questions;
+		this.exercises = exercises;
+	}
+
 	public Long getId() {
 		return id;
 	}
