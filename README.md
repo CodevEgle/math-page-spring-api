@@ -31,8 +31,8 @@ Make sure you have the following dependencies installed on your system:
      ```properties
      # Database
      spring.datasource.url=jdbc:mysql://localhost:3306/matematika
-     spring.datasource.username=root
-     spring.datasource.password=code
+     spring.datasource.username=your_DB_username   
+     spring.datasource.password=your_DB_password
      spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
      # JPA/Hibernate
