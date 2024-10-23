@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 	            .csrf(csrf -> csrf.disable())  
 	            .authorizeHttpRequests(auth -> 
 	             auth.requestMatchers("/api/auth/**").permitAll()
+	             	.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 	                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
 	                 .requestMatchers("/api/users/**").authenticated()//hasAuthority("ROLE_USER")
 	                 .anyRequest().authenticated()
