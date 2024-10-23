@@ -25,11 +25,14 @@ import lt.ca.javau10.repositories.YearRepository;
 public class DbSeeder implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(DbSeeder.class);
 
-    @Autowired
     private RoleRepository roleRepository;
-    @Autowired
+   
     private YearRepository yearRepository;
 
+    public DbSeeder (RoleRepository roleRepository, YearRepository yearRepository) {
+    	this.roleRepository = roleRepository;
+    	this.yearRepository = yearRepository;
+    }
     @Override
     public void run(String... args) throws Exception {
         if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()) {

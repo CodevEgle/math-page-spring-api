@@ -36,6 +36,10 @@ public class Topic {
 
     public Topic () {}
     
+    public Topic (String title) {
+    	this.title = title;
+    }
+    
 	public Topic(String title, String description, List<Theory> theories, List<Assessment> assessments) {
 		this.title = title;
 		this.description = description;
